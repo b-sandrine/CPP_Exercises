@@ -12,7 +12,7 @@ int main()
 {
     cout << "\t\t\t\t ********************* WELCOME TO HR SYSTEM *********************" << endl
          << endl;
-    cout << "type `help` to see all commands available" << endl;
+    cout << "type `help` then press Enter key" << endl;
     string commandLine = "";
 
     while (true)
@@ -179,6 +179,38 @@ int main()
                     cout << "Failed to open a file";
                 }
             }
+        }
+        else if (command == "delete")
+        {
+            cout << "Choose to delete";
+        }
+        else if (command == "help")
+        {
+            cout << "=============================================================================================" << endl;
+            cout << "\t\t\t\t\t HELP MENU" << endl;
+            cout << "=============================================================================================" << endl;
+            cout << "add <location> \t\t\t\t\t To add a location" << endl;
+            cout << "record <locations> <disease> <cases> \t\t To record a new disease record" << endl;
+            cout << "list locations \t\t\t\t\t To view all existing locations" << endl;
+            cout << "list diseases \t\t\t\t\t To view all recorded diseases" << endl;
+            cout << "where <disease> \t\t\t\t Find where disease exists" << endl;
+            cout << "cases <disease> \t\t\t\t Find cases of a disease in a location" << endl;
+            cout << "cases <location> <disease> \t\t\t Find total cases of a disease " << endl;
+            cout << "delete <location> \t\t\t\t To delete existing location" << endl;
+            cout << "clear \t\t\t\t\t\t To clear the terminal" << endl;
+            cout << "exit \t\t\t\t\t\t To exit" << endl;
+        }
+        else if (command == "exit")
+        {
+            exit(0);
+        }
+        else if (command == "clear")
+        {
+            system("clear");
+        }
+        else
+        {
+            cout << "Invalid command";
         }
     }
 }

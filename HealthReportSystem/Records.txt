@@ -1,5 +1,1 @@
-Nyabihu,flu,27
-Bugesera,fever,42
-kamembe,malaria,1
-karongi,flu,30
-nyagatare,muhindu,100
+
