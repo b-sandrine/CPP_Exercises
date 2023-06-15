@@ -147,7 +147,6 @@ int main()
         {
             if (commands[0] == "cases")
             {
-                ofstream writeFile("Records.txt", ios::app);
                 string location = commands[1];
                 string disease = commands[2];
                 int cases = 0;
