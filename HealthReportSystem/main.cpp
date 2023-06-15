@@ -24,6 +24,9 @@ int main()
         vector<string> commands;
         string command = "";
 
+        int rows = 5, cols = 3;
+        vector<vector<string>> words(rows, vector<string>(cols));
+
         while (iss >> command)
         {
             commands.push_back(command);
@@ -72,8 +75,6 @@ int main()
                 if (readFile.is_open())
                 {
                     string line = "";
-                    int rows = 5, cols = 3;
-                    vector<vector<string>> words(rows, vector<string>(cols));
 
                     int rowIndex = 0;
                     while (getline(readFile, line))
@@ -98,33 +99,39 @@ int main()
                         }
                     }
 
-                    if(commands[0] == "where") {
+                    if (commands[0] == "where")
+                    {
                         string disease = commands[1];
                         int flag = 0;
-                        for(int i = 0; i< rows; i ++) {
-                            if(words[i][1] == disease) {
-                                flag ++;
+                        for (int i = 0; i < rows; i++)
+                        {
+                            if (words[i][1] == disease)
+                            {
+                                flag++;
                                 cout << words[i][0] << endl;
                             }
                         }
 
-                        if(flag <= 0) {
-                            cout << "No location with this disease"<<endl;
+                        if (flag <= 0)
+                        {
+                            cout << "No location with this disease" << endl;
                         }
                     }
 
-                    if(commands[0] == "cases") {
+                    if (commands[0] == "cases")
+                    {
                         string disease = commands[1];
                         int cases = 0;
-                        for(int i = 0; i< rows; i ++) {
-                            if(words[i][1] == disease) {
+                        for (int i = 0; i < rows; i++)
+                        {
+                            if (words[i][1] == disease)
+                            {
                                 int caseNumber = stoi(words[i][2]);
                                 cases += caseNumber;
                             }
                         }
 
                         cout << "Total cases of '" << disease << "' = " << cases << endl;
-
                     }
 
                     readFile.close();
@@ -134,6 +141,26 @@ int main()
                 {
                     cout << "Failed to open file for reading" << endl;
                 }
+            }
+        }
+        else if (size == 3)
+        {
+            if (commands[0] == "cases")
+            {
+                ofstream writeFile("Records.txt", ios::app);
+                string location = commands[1];
+                string disease = commands[2];
+                int cases = 0;
+                for (int i = 0; i < rows; i++)
+                {
+                    if (words[i][0] == location && words[i][1] == disease)
+                    {
+                        int caseNumber = stoi(words[i][2]);
+                        cases += caseNumber;
+                    }
+                }
+
+                cout << "Total cases of " << disease << " at " << location << " are: " << cases << endl;
             }
         }
         else if (size == 4)
