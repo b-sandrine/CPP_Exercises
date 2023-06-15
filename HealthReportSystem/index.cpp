@@ -1,31 +1,36 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <cstdlib>
+#include <sstream>
+#include <vector>
+
 using namespace std;
+#define CLEAR_COMMAND "clear"
 
 int main()
 {
     cout << "\t\t\t\t ********************* WELCOME TO HR SYSTEM *********************" << endl
          << endl;
     cout << "type `help` to see all commands available" << endl;
-    string command = "";
+    string commandLine = "";
 
     while (true)
     {
         cout << "\nconsole > ";
-        cin >> command;
-        if (command == "add")
-        {
-            int choice = 0;
-            cout << "All operations to perform \n\t 1. Add new location \n\t 2. View all locations\n";
-            cout << "Enter your choice: ";
-            cin >> choice;
-            ofstream writeFile("Locations.txt", ios::app);
-            ifstream readFile("Locations.txt");
+        getline(cin, commandLine);
 
-            switch (choice)
+        istringstream iss(commandLine);
+        vector<string> commands;
+        string command = "";
+
+        while (iss >> command)
+        {
+            if (command == "add")
+
             {
-            case 1:
+                ofstream writeFile("Locations.txt", ios::app);
+
                 if (writeFile.is_open())
                 {
                     string location = "";
@@ -39,9 +44,20 @@ int main()
                 {
                     cout << "Failed to open a file";
                 }
-                break;
-
-            case 2:
+            }
+            else if (command == "record")
+            {
+                ofstream writeFile("Locations.txt", ios::app);
+                string disease = "";
+                cout << "Enter a new disease: ";
+                cin >> disease;
+                writeFile << disease << endl;
+                writeFile.close();
+                cout << "Successfully written in file";
+            }
+            else if (command == "list")
+            {
+                ifstream readFile("Locations.txt");
                 if (readFile.is_open())
                 {
                     string line = "";
@@ -57,40 +73,31 @@ int main()
                 {
                     cout << "Failed to open file for reading" << endl;
                 }
-                break;
-
-            default:
-                cout << "Invalid choice";
-                break;
             }
-        }
-        else if (command == "record")
-        {
-            cout << "Choose to record";
-        }
-        else if (command == "list")
-        {
-            cout << "Choose to list";
-        }
-        else if (command == "delete")
-        {
-            cout << "Choose to delete";
-        }
-        else if (command == "help")
-        {
-            cout << "add \t\t To add a location" << endl;
-            cout << "record \t\t To record a new disease record" << endl;
-            cout << "list \t\t To view all existing locations" << endl;
-            cout << "delete \t\t To delete existing location" << endl;
-            cout << "exit \t\t To exit" << endl;
-        }
-        else if (command == "exit")
-        {
-            exit(0);
-        }
-        else
-        {
-            cout << "Invalid command";
+            else if (command == "delete")
+            {
+                cout << "Choose to delete";
+            }
+            else if (command == "help")
+            {
+                cout << "add \t\t To add a location" << endl;
+                cout << "record \t\t To record a new disease record" << endl;
+                cout << "list \t\t To view all existing locations" << endl;
+                cout << "delete \t\t To delete existing location" << endl;
+                cout << "exit \t\t To exit" << endl;
+            }
+            else if (command == "exit")
+            {
+                exit(0);
+            }
+            else if (command == "clear")
+            {
+                system("clear");
+            }
+            else
+            {
+                cout << "Invalid command";
+            }
         }
     }
 }
