@@ -113,6 +113,20 @@ int main()
                         }
                     }
 
+                    if(commands[0] == "cases") {
+                        string disease = commands[1];
+                        int cases = 0;
+                        for(int i = 0; i< rows; i ++) {
+                            if(words[i][1] == disease) {
+                                int caseNumber = stoi(words[i][2]);
+                                cases += caseNumber;
+                            }
+                        }
+
+                        cout << "Total cases of '" << disease << "' = " << cases << endl;
+
+                    }
+
                     readFile.close();
                     cout << "Successfully read from file";
                 }
