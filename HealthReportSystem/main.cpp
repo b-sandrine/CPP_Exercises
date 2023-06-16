@@ -8,6 +8,10 @@
 using namespace std;
 #define CLEAR_COMMAND "clear"
 
+void ReadFile()
+{
+}
+
 int main()
 {
     cout << "\t\t\t\t ********************* WELCOME TO HR SYSTEM *********************" << endl
@@ -145,21 +149,41 @@ int main()
         }
         else if (size == 3)
         {
-            if (commands[0] == "cases")
+            ifstream readFile("Records.txt");
+            if (readFile.is_open())
             {
-                string location = commands[1];
-                string disease = commands[2];
-                int cases = 0;
-                for (int i = 0; i < rows; i++)
-                {
-                    if (words[i][0] == location && words[i][1] == disease)
-                    {
-                        int caseNumber = stoi(words[i][2]);
-                        cases += caseNumber;
-                    }
-                }
+                string line = "";
 
-                cout << "Total cases of " << disease << " at " << location << " are: " << cases << endl;
+                int rowIndex = 0;
+                while (getline(readFile, line))
+                {
+                    istringstream iss(line);
+                    string word = "";
+                    int colIndex = 0;
+                    while (getline(iss, word, ','))
+                    {
+                        words[rowIndex][colIndex] = word;
+                        colIndex++;
+                    }
+
+                    rowIndex++;
+                }
+                if (commands[0] == "cases")
+                {
+                    string location = commands[1];
+                    string disease = commands[2];
+                    int cases = 0;
+                    for (int i = 0; i < rows; i++)
+                    {
+                        if (words[i][0] == location && words[i][1] == disease)
+                        {
+                            int caseNumber = stoi(words[i][2]);
+                            cases += caseNumber;
+                        }
+                    }
+
+                    cout << "Total cases of " << disease << " at " << location << " are: " << cases << endl;
+                }
             }
         }
         else if (size == 4)
