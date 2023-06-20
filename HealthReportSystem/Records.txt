@@ -1,4 +1,1 @@
-Nyabihu,Flu,27
 Bugesera,fever,42
-Nyabihu,flu,27
-Nyabihu,Flu,80

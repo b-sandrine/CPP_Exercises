@@ -151,9 +151,15 @@ void handleCasesCommand(const vector<string> &commands)
             string recLocation, recDisease, recCasesStr;
             if (getline(iss, recLocation, ',') && getline(iss, recDisease, ',') && getline(iss, recCasesStr, ','))
             {
-                if ((location.empty() || recLocation == location && recDisease == disease))
-                {
-                    cases += stoi(recCasesStr);
+                if(location == "") {
+                    if(recDisease == disease) {
+                        cases += stoi(recCasesStr); 
+                    }
+                }
+                else {
+                    if(recLocation == location && recDisease == disease) {
+                        cases += stoi(recCasesStr); 
+                    }
                 }
             }
         }
@@ -165,6 +171,78 @@ void handleCasesCommand(const vector<string> &commands)
     else
     {
         cout << "Failed to open file for reading" << endl;
+    }
+}
+
+void handleRecordCommand(const vector<string> &commands)
+{
+    if (commands.size() != 4)
+    {
+        cout << "Invalid number of arguments for 'record' command" << endl;
+        return;
+    }
+
+    ofstream writeFile("Records.txt", ios::app);
+    if (writeFile.is_open())
+    {
+        string location = commands[1];
+        string disease = commands[2];
+        string cases = commands[3];
+
+        writeFile << location << "," << disease << "," << cases << endl;
+        writeFile.close();
+        cout << "Successfully recorded data" << endl;
+    }
+    else
+    {
+        cout << "Failed to record data" << endl;
+    }
+}
+
+void handleDeleteCommand(const vector<string> &commands)
+{
+    if (commands.size() != 2)
+    {
+        cout << "Invalid number of arguments for 'delete' command" << endl;
+        return;
+    }
+
+    ifstream readFile(RECORDS_FILE);
+    if (readFile.is_open())
+    {
+        string line;
+        string location = commands[1];
+        vector<string> records;
+
+        while (getline(readFile, line))
+        {
+            istringstream iss(line);
+            string recLocation;
+            getline(iss, recLocation, ',');
+            if (recLocation != location)
+            {
+                records.push_back(line);
+            }
+        }
+
+        readFile.close();
+
+        ofstream writeFile(RECORDS_FILE);
+
+        if(writeFile.is_open()) {
+            for(const auto& record: records) {
+                writeFile << record << endl;
+            }
+
+            writeFile.close();
+            cout << "Records successfully deleted" << endl;
+        }
+        else {
+            cout << "Failed to open file for updating records" << endl;
+        }
+    }
+    else {
+        cout << "Failed to delete record" <<endl;
     }
 }
 
@@ -215,6 +293,14 @@ int main()
                     cout << "Invalid command " << commandLine << endl;
                 }
             }
+        }
+        else if (commands[0] == "record")
+        {
+            handleRecordCommand(commands);
+        }
+        else if(commands[0] == "delete") 
+        {
+            handleDeleteCommand(commands);
         }
         else if (commands[0] == "where")
         {
