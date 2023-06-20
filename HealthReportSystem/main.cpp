@@ -8,8 +8,43 @@
 using namespace std;
 #define CLEAR_COMMAND "clear"
 
-void ReadFile()
+void addData(string filename, string data)
 {
+    ofstream file;
+    file.open(filename, ios::app);
+    if (file.is_open())
+    {
+        file << data << endl;
+        file.close();
+        cout << "Data written successfully";
+    }
+    else
+    {
+        cout << "Failed to open file";
+    }
+    return;
+}
+
+void readData(string filename)
+{
+    ifstream file(filename);
+
+    if (file.is_open())
+    {
+        string line = "";
+        int index = 0;
+        while (getline(file, line))
+        {
+            cout << ++index << ". " << line << endl;
+        }
+        file.close();
+        cout << "Successfully read from file";
+    }
+    else {
+        cout << "Failed to read from file";
+    }
+
+    return;
 }
 
 int main()
@@ -42,36 +77,11 @@ int main()
         {
             if (commands[0] == "add")
             {
-                ofstream writeFile("Locations.txt", ios::app);
-                if (writeFile.is_open())
-                {
-                    writeFile << commands[1] << endl;
-                    writeFile.close();
-                    cout << "Successfully written in file";
-                }
-                else
-                {
-                    cout << "Failed to open a file";
-                }
+                addData("Locations.txt", commands[1]);
             }
             else if (commands[0] == "list" && commands[1] == "locations")
             {
-                ifstream readFile("Locations.txt");
-                if (readFile.is_open())
-                {
-                    string line = "";
-                    int index = 0;
-                    while (getline(readFile, line))
-                    {
-                        cout << ++index << ". " << line << endl;
-                    }
-                    readFile.close();
-                    cout << "Successfully read from file";
-                }
-                else
-                {
-                    cout << "Failed to open file for reading" << endl;
-                }
+                readData("Locations.txt");
             }
             else
             {
