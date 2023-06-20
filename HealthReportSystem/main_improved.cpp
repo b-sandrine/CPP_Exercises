@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 #define CLEAR_COMMAND "clear"
@@ -36,11 +37,18 @@ void readData(string filename)
     {
         string line = "";
         int index = 0;
+        vector<string> locations;
+
         while (getline(file, line))
         {
-            cout << ++index << ". " << line << endl;
+            locations.push_back(line);
         }
         file.close();
+        sort(locations.begin(), locations.end());
+
+        for(const string& location: locations) {
+            cout << location <<endl;
+        }
         cout << "Successfully read from file";
     }
     else
@@ -86,7 +94,30 @@ void handleListLocationsCommand()
 
 void handleListDiseaseCommand()
 {
-    readData(RECORDS_FILE);
+    ifstream file(RECORDS_FILE);
+
+    if (file.is_open())
+    {
+        string line = "";
+        int index = 0;
+        vector<string> locations;
+
+        while (getline(file, line))
+        {
+            istringstream iss(line);
+            string recLocation, recDisease, recCases;
+            while(getline(iss,recLocation,(',')) && getline(iss,recDisease,',')) {
+                cout << ++index << ". " << recDisease << endl;
+            } 
+        }
+        file.close();
+        cout << "Successfully read from file";
+    }
+    else
+    {
+        cout << "Failed to read from file";
+    }
+
 }
 
 void handleWhereCommand(const vector<string> &commands)

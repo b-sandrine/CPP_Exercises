@@ -1,1 +1,2 @@
 Bugesera,fever,42
+Zambia,Cholera,300
